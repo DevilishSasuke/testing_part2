@@ -4,10 +4,14 @@ on:
   push:
     paths:
       - "*.py"
+      - "tests/*.py"
+      - "mat/*.py"
       - ".github/workflows/**"
   pull_request:
     paths:
       - "*.py"
+      - "tests/*.py"
+      - "mat/*.py"
       - ".github/workflows/**"
   workflow_dispatch:
 

@@ -3,15 +3,24 @@ from typing import Optional
 from accessify import private, protected
 
 class Matrix:
+  '''
+    class of matrix representation and matrix base operations
+  '''
   _defaultValue = 1 # default value that is used when filling matrix with values
 
   def __init__(self, rows: int, columns: int):
     '''
       class constructor based on matrix shape
 
-      args:
-        rows - number of rows in creating matrix
-        columns - number of columns in creating matrix
+      Args:
+        rows (int): number of rows in creating matrix
+        columns (int): number of columns in creating matrix
+
+      Returns:
+        None
+
+      Raises:
+        ValueError: if rows or columns are less than 1
     '''
 
     if rows < 1 or columns < 1:
@@ -22,16 +31,18 @@ class Matrix:
     self.__matrix = [[Matrix._defaultValue for _ in range(columns)] for _ in range(rows)]
 
   @classmethod
-  def create(cls, matrix: list[list[float]]):
+  def create(cls, matrix: list[list[float]]) -> "Matrix":
     '''
       alternative way to initialize matrix object
 
       based on already existing 2d array
 
-      returns created instance of matrix class
-
+      
       args:
-        matrix - existing 2d array 
+        matrix (list[list[float]]): existing 2d array 
+
+      Returns:
+        Matrix: created instance of matrix class
     '''
 
     instance = cls(1, 1) # create class instance
@@ -48,11 +59,19 @@ class Matrix:
 
       returns filled matrix data
 
-      args:
-        min value - min bound of randomizer range
-        max value - max bound of randomizer range
-        fill_with_float: bool - if True - will fill with float values
+
+
+      Args:
+        min value (float, optional): min bound of randomizer range
+        max value (float, optional): max bound of randomizer range
+        fill_with_float (bool): if True - will fill with float values
           otherwise will fill with in values 
+
+      Returns:
+        list[list[float]]: matrix data with filled values
+
+      Raises:
+        ValueError: if min value is less than max
     '''
 
     if max_value < min_value:
@@ -60,9 +79,12 @@ class Matrix:
 
     rnd_range = max_value - min_value # get range to randomize numbers in
 
-    def new_value():
+    def new_value() -> float | int:
       '''
         define what type new elements will be initialized with
+
+        Returns:
+          float or int: randomized value of picked type
       '''
       return round(min_value + random.random() * rnd_range, 3) \
         if fill_with_float \
@@ -84,17 +106,22 @@ class Matrix:
     '''
       resize matrix and init added elements
 
-      returns resized matrix data
-      
-      args:
-        rows - number of rows of resized matrix
-        columns - number of columns of resized matrix
+      Args:
+        rows (int): number of rows of resized matrix
+        columns (int): number of columns of resized matrix
 
-        min value - min bound of randomizer range
-        max value - max bound of randomizer range
+        min value (float, optional): min bound of randomizer range
+        max value (float, optional): max bound of randomizer range
 
-        randomize_new_elements: bool - if True - will fill added elements with float values
+        randomize_new_elements (bool): if True - will fill added elements with float values
           otherwise will fill with defaultValue (by default = 1)
+
+      Returns:
+        list[list[float]]: resized matrix data
+
+      Raises:
+        ValueError: if rows or columns less than 1
+        ValueError: if min value < max value in range
     '''
 
     if rows < 1 or columns < 1:
@@ -110,9 +137,12 @@ class Matrix:
     rows_diff = rows - self.__rows # positive means that it needs to be added
     rnd_range = max_value - min_value
 
-    def new_element():
+    def new_element() -> float | int:
       '''
         define if matrix will be extend with random numbers or with default value
+
+        Returns:
+          float or int: returns randomized float or int defaultValue depending on pick
       '''
       return round(min_value + random.random() * rnd_range, 3) \
               if randomize_new_elements else Matrix._defaultValue
@@ -147,7 +177,8 @@ class Matrix:
     '''
       transpose matrix (change rows to columns and columns to rows)
 
-      returns transposet matrix data
+      Returns:
+        list[list[float]]: transposet matrix data
     '''
     self.__matrix = [[self.__matrix[j][i] for j in range(self.__rows)] for i in range(self.__cols)]
     self.__rows, self.__cols = self.__cols, self.__rows
@@ -157,6 +188,12 @@ class Matrix:
   def set_seed(seed: int) -> None:
     '''
       set seed in randomizer
+
+      Args:
+        seed (int): new seed to set in generator ("random" lib)
+        
+      Returns: 
+        None
     '''
     random.seed(seed)
 
@@ -164,6 +201,12 @@ class Matrix:
   def set_defaul_value(cls, value: int) -> None:
     '''
       set new default value that uses to initialize new elements
+
+      Args:
+        value (int): new value to change defaultValue on
+
+      Returns:
+        None 
     '''
     cls._defaultValue = value
 
@@ -172,10 +215,21 @@ class Matrix:
     cls._defaultValue = 1
 
   @protected
-  def set_matrix(self, new_matrix: list[list[float]]):
+  def set_matrix(self, new_matrix: list[list[float]]) -> None:
     '''
       set new matrix as matrix data instance
       updates rows and columns counters in class
+      copying all rows from new_matrix!!
+
+      Args:
+        new_matrix (list[list[float]]): matrix that supposed to replace current matrix
+
+      Returns:
+        None
+
+      Raises:
+        ValueError: if rows < 1
+        ValueError: if any of rows element number is different from others
     '''
     rows = len(new_matrix)
     if rows > 0:
@@ -195,18 +249,41 @@ class Matrix:
 
   @property
   def get_matrix(self) -> list[list[float]]:
+    '''
+      Returns:
+        list[list[float]]: actual matrix data
+    '''
     return self.__matrix
 
   @property
   def is_square(self) -> bool:
+    '''
+      checks if matrix is square shape
+    
+
+      Returns:
+        bool: True - if rows == columns, false otherwise
+    '''
     return self.__rows == self.__cols
   
   @property
   def rows(self) -> int:
+    '''
+      getter for __rows var
+
+      Returns:
+        int: number of rows in matrix
+    '''
     return self.__rows
   
   @property
   def cols(self) -> int:
+    '''
+      getter for __cols var
+
+      Returns:
+        int: number of columns in matrix
+    '''
     return self.__cols
 
   def __str__(self):
@@ -217,4 +294,11 @@ class Matrix:
   
   @private
   def private_test_method(self) -> bool:
+      '''
+        just method to test encapsulation in tests
+
+        Returns:
+          bool: constantly returns True
+      '''
       return True
+  
