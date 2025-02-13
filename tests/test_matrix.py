@@ -3,7 +3,8 @@ from mat.matrix import Matrix
 from accessify.access import InaccessibleDueToItsProtectionLevelException
 
 class TestMatrixPositive(unittest.TestCase):
-  def test_matrix_init(self): 
+  def test_matrix_init(self):
+    Matrix.reset_default_value()
     result = [[1, 1], [1, 1]]
     matrix = Matrix(2, 2).get_matrix
     self.assertEqual(result, matrix)
