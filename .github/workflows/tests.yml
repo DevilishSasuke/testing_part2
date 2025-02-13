@@ -1,0 +1,36 @@
+name: testing_p2
+
+on:
+  push:
+    paths:
+      - "*.py"
+      - ".github/workflows/**"
+  pull_request:
+    paths:
+      - "*.py"
+      - ".github/workflows/**"
+  workflow_dispatch:
+
+jobs:
+  run_tests:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      # Install python with required version
+      - name: Set up python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11.5"
+
+      # Install libs that app requires
+      - name: Install dependencies
+        run: python -m pip install -r req.txt
+
+      # Run all pytests and save report to coverage.xml to share it to sonarcloud
+      # save report in html format in case that coverall is inavailable
+      - name: Run pytests
+        run: python -m pytest --cov=roots --cov-report=xml --cov-report=html

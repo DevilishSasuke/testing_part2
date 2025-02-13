@@ -1,5 +1,6 @@
 import random
 from typing import Optional
+from accessify import private, protected
 
 class Matrix:
   _defaultValue = 1 # default value that is used when filling matrix with values
@@ -16,8 +17,8 @@ class Matrix:
     if rows < 1 or columns < 1:
       raise ValueError("rows and columns must be positive numbers")
 
-    self.rows = rows
-    self.cols = columns
+    self.__rows = rows
+    self.__cols = columns
     self.__matrix = [[Matrix._defaultValue for _ in range(columns)] for _ in range(rows)]
 
   @classmethod
@@ -70,8 +71,8 @@ class Matrix:
 
     # fill all matrix with new values
     self.__matrix = [[new_value()
-                    for _ in range(self.cols)] 
-                    for _ in range(self.rows)]
+                    for _ in range(self.__cols)] 
+                    for _ in range(self.__rows)]
     
     return self.__matrix
 
@@ -102,11 +103,11 @@ class Matrix:
       raise ValueError("max value is less than min value")
 
     # no need to change anything
-    if rows == self.rows and self.cols == columns:
+    if rows == self.__rows and self.__cols == columns:
       return
 
-    cols_diff = columns - self.cols # difference - negative means that it needs to be removed
-    rows_diff = rows - self.rows # positive means that it needs to be added
+    cols_diff = columns - self.__cols # difference - negative means that it needs to be removed
+    rows_diff = rows - self.__rows # positive means that it needs to be added
     rnd_range = max_value - min_value
 
     def new_element():
@@ -117,27 +118,27 @@ class Matrix:
               if randomize_new_elements else Matrix._defaultValue
 
     # change rows
-    if rows < self.rows:
+    if rows < self.__rows:
       # just trim the data
       self.__matrix = self.__matrix[:rows]
-    elif rows > self.rows:
+    elif rows > self.__rows:
       # add new rows until correct amount with correcr amount of columns
       self.__matrix.extend([[new_element() 
-                          for _ in range(self.cols + cols_diff)] 
+                          for _ in range(self.__cols + cols_diff)] 
                           for _ in range(rows_diff)])
 
     # change columns
-    for i in range(min(self.rows, rows)):
-      if columns < self.cols:
+    for i in range(min(self.__rows, rows)):
+      if columns < self.__cols:
         # trim the row
         self.__matrix[i] = self.__matrix[i][:columns]
-      elif columns > self.cols:
+      elif columns > self.__cols:
         # extend unupdated rows with elements
         self.__matrix[i].extend([new_element() for _ in range(cols_diff)])
 
     # update shape vars
-    self.rows = rows
-    self.cols = columns
+    self.__rows = rows
+    self.__cols = columns
 
     return self.__matrix
 
@@ -148,8 +149,8 @@ class Matrix:
 
       returns transposet matrix data
     '''
-    self.__matrix = [[self.__matrix[j][i] for j in range(self.rows)] for i in range(self.cols)]
-    self.rows, self.cols = self.cols, self.rows
+    self.__matrix = [[self.__matrix[j][i] for j in range(self.__rows)] for i in range(self.__cols)]
+    self.__rows, self.__cols = self.__cols, self.__rows
 
     return self.__matrix
 
@@ -166,6 +167,11 @@ class Matrix:
     '''
     cls._defaultValue = value
 
+  @classmethod
+  def reset_default_value(cls) -> None:
+    cls._defaultValue = 1
+
+  @protected
   def set_matrix(self, new_matrix: list[list[float]]):
     '''
       set new matrix as matrix data instance
@@ -181,9 +187,11 @@ class Matrix:
       if len(row) != columns:
         raise ValueError("all rows in matrix must contain the same element number")
       
-    self.__matrix = new_matrix
-    self.rows = rows
-    self.cols = columns
+    self.resize(rows, columns)
+    for i in range(rows):
+      self.__matrix[i] = new_matrix[i].copy()
+    self.__rows = rows
+    self.__cols = columns
 
   @property
   def get_matrix(self) -> list[list[float]]:
@@ -191,11 +199,22 @@ class Matrix:
 
   @property
   def is_square(self) -> bool:
-    return self.rows == self.cols
+    return self.__rows == self.__cols
+  
+  @property
+  def rows(self) -> int:
+    return self.__rows
+  
+  @property
+  def cols(self) -> int:
+    return self.__cols
 
   def __str__(self):
     return '\n'.join([' '.join(map(str, row)) for row in self.__matrix])
 
   def __repr__(self):
-    return self.__matrix
-
+    return str(self.__matrix)
+  
+  @private
+  def private_test_method(self) -> bool:
+      return True
