@@ -30,7 +30,7 @@ class Matrix:
     self.__cols = columns
     self.__matrix = [[Matrix._default_value for _ in range(columns)] for _ in range(rows)]
 
-  @staticmethod
+  @classmethod
   def create(cls, matrix: list[list[float]]) -> "Matrix":
     '''
       alternative way to initialize matrix object
