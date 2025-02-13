@@ -2,6 +2,7 @@ import unittest
 from mat.matrix import Matrix
 from accessify.access import InaccessibleDueToItsProtectionLevelException
 
+
 class TestMatrixPositive(unittest.TestCase):
   def test_matrix_init(self):
     Matrix.reset_default_value()
@@ -163,7 +164,6 @@ class TestMatrixExceptions(unittest.TestCase):
       Matrix.create([[]])
     with self.assertRaises(ValueError):
       Matrix.create([[], [], []])
-    
 
   def test_dif_row_lens(self):
     values = [[1, 2, 3], [4, 5], [6, 7, 8]]

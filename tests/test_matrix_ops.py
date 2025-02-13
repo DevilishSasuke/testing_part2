@@ -4,8 +4,6 @@ from mat.matrixoperators import MatrixOperators
 
 
 class TestMatrixPositive(unittest.TestCase):
-  #cutted_matrix = [row[:3] for row in start_matrix[:-1]]
-
   def test_power_elements(self):
     values = [[1, 2, 3], [4, 5, 6], [7, 8, 9]]
     
