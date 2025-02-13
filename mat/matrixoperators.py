@@ -1,4 +1,4 @@
-from matrix import Matrix
+from mat.matrix import Matrix
 
 class MatrixOperators:
 
@@ -15,7 +15,7 @@ class MatrixOperators:
       returns determinant ONLY for 2x2 or 3x3 matrices
     '''
     if not matrix.is_square:
-      raise(ValueError, "matrix must be square.")
+      raise ValueError("matrix must be square")
     
     mat = matrix.get_matrix
     if matrix.rows == 1:
@@ -27,7 +27,7 @@ class MatrixOperators:
               mat[0][1] * (mat[1][0] * mat[2][2] - mat[1][2] * mat[2][0]) + 
               mat[0][2] * (mat[1][0] * mat[2][1] - mat[1][1] * mat[2][0]))
 
-    raise(NotImplementedError, "supports only 2x2 or 3x3 matrices")
+    raise NotImplementedError("supports only 2x2 or 3x3 matrices")
   
   def power_elements(matrix: Matrix, power: float) -> Matrix:
     '''

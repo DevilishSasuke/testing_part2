@@ -1,7 +1,6 @@
 import unittest
-from app.matrix import Matrix
+from mat.matrix import Matrix
 from accessify.access import InaccessibleDueToItsProtectionLevelException
-
 
 class TestMatrixPositive(unittest.TestCase):
   def test_matrix_init(self): 
