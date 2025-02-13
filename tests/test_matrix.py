@@ -10,9 +10,9 @@ class TestMatrixPositive(unittest.TestCase):
     matrix = Matrix(2, 2).get_matrix
     self.assertEqual(result, matrix)
 
-    defaultValue = -100
-    Matrix.set_defaul_value(defaultValue)
-    result = [[defaultValue], [defaultValue]]
+    default_value = -100
+    Matrix.set_defaul_value(default_value)
+    result = [[default_value], [default_value]]
     matrix = Matrix(2, 1).get_matrix
     self.assertEqual(result, matrix)
     Matrix.reset_default_value()
@@ -79,7 +79,7 @@ class TestMatrixPositive(unittest.TestCase):
     rows = 3
     cols = 5
     matrix = Matrix(rows, cols)
-    old_default_value = Matrix._defaultValue
+    old_default_value = Matrix._default_value
     new_default_value = 2
 
     def test_resize_matrix(self: TestMatrixPositive, new_rows, new_cols, randomize = False):

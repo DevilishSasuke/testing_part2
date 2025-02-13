@@ -6,7 +6,7 @@ class Matrix:
   '''
     class of matrix representation and matrix base operations
   '''
-  _defaultValue = 1 # default value that is used when filling matrix with values
+  _default_value = 1 # default value that is used when filling matrix with values
 
   def __init__(self, rows: int, columns: int):
     '''
@@ -28,9 +28,9 @@ class Matrix:
 
     self.__rows = rows
     self.__cols = columns
-    self.__matrix = [[Matrix._defaultValue for _ in range(columns)] for _ in range(rows)]
+    self.__matrix = [[Matrix._default_value for _ in range(columns)] for _ in range(rows)]
 
-  @classmethod
+  @staticmethod
   def create(cls, matrix: list[list[float]]) -> "Matrix":
     '''
       alternative way to initialize matrix object
@@ -131,7 +131,7 @@ class Matrix:
 
     # no need to change anything
     if rows == self.__rows and self.__cols == columns:
-      return
+      return self.__matrix
 
     cols_diff = columns - self.__cols # difference - negative means that it needs to be removed
     rows_diff = rows - self.__rows # positive means that it needs to be added
@@ -145,7 +145,7 @@ class Matrix:
           float or int: returns randomized float or int defaultValue depending on pick
       '''
       return round(min_value + random.random() * rnd_range, 3) \
-              if randomize_new_elements else Matrix._defaultValue
+              if randomize_new_elements else Matrix._default_value
 
     # change rows
     if rows < self.__rows:
@@ -185,6 +185,7 @@ class Matrix:
 
     return self.__matrix
 
+  @staticmethod
   def set_seed(seed: int) -> None:
     '''
       set seed in randomizer
@@ -208,11 +209,11 @@ class Matrix:
       Returns:
         None 
     '''
-    cls._defaultValue = value
+    cls._default_value = value
 
   @classmethod
   def reset_default_value(cls) -> None:
-    cls._defaultValue = 1
+    cls._default_value = 1
 
   @protected
   def set_matrix(self, new_matrix: list[list[float]]) -> None:

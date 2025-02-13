@@ -1,3 +1,5 @@
+![Build Status](https://github.com/DevilishSasuke/testing_part2/actions/workflows/tests.yml/badge.svg)
+
 # Проект
 
 Проект для освоения автоматического тестирования ПО с использованием различных инструментов.
@@ -104,14 +106,21 @@ is_square - свойство, показывает, квадратная ли м
 	```
 	
 	
-### Запуск тестов
+### Запуск тестов вручную
 
-Из главной директории репозитория (testing_part2): <br>
+1. Из главной директории репозитория (testing_part2)
 ```
 	python -m pytest tests/
 
 	при желании можно добавить флаги для генерации отчётов xml или html:
 	--cov=mat --cov-report=xml --cov-report=html
+```
+
+### Запуск приложения
+
+1. Из главной директории репозитория (testing_part2)
+```
+	python main.py
 ```
 
 # Описание тестов

@@ -1,7 +1,7 @@
 from mat.matrix import Matrix
 
 class MatrixOperators:
-
+  @staticmethod
   def diag(matrix: Matrix) -> float:
     '''
       calculate sum of diagonal elements in matrix
@@ -19,6 +19,7 @@ class MatrixOperators:
     
     return sum([mat[i][i] for i in range(min(matrix.rows, matrix.cols))])
 
+  @staticmethod
   def determinant(matrix: Matrix) -> float:
     '''
       calculate the determinant for square matrices which size is not greater than 3x3
@@ -48,6 +49,7 @@ class MatrixOperators:
 
     raise NotImplementedError("supports only 2x2 or 3x3 matrices")
   
+  @staticmethod
   def power_elements(matrix: Matrix, power: float) -> Matrix:
     '''
       power all elements in matrix
@@ -63,6 +65,7 @@ class MatrixOperators:
     powered_matrix = Matrix.create([[el ** power for el in row] for row in mat])
     return powered_matrix
 
+  @staticmethod
   def add_matrices(matrix1: Matrix, matrix2: Matrix) -> Matrix:
     '''
       adds matrix 1 to matrix 2
